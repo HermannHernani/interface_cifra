@@ -1,8 +1,8 @@
 from rsa import *
-import pyDes
+from des import *
 
 data= "Hello there!"
-k= pyDes.des("SnS!ines", pyDes.ECB, pad=None, padmode=pyDes.PAD_PKCS5)
+k= des("SnS!ines", ECB, pad=None, padmode=PAD_PKCS5)
 
 enc_data= k.encrypt(data)
 print("texto cifrado: ")
