@@ -10,7 +10,7 @@ class TranslateBook(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.title("Interface da Cifra v1")
+        self.title("Interface da Cifra (Descifra) v1")
         self.geometry("500x300")
 
         self.notebook = Notebook(self)
@@ -18,7 +18,7 @@ class TranslateBook(tk.Tk):
         english_tab = tk.Frame(self.notebook)
         italian_tab = tk.Frame(self.notebook)
 
-        self.translate_button = tk.Button(english_tab, text="CIFRAR", command=self.translate)
+        self.translate_button = tk.Button(english_tab, text="DESCIFRAR", command=self.translate)
         self.translate_button.pack(side=tk.BOTTOM, fill=tk.X)
 
         self.english_entry = tk.Text(english_tab, bg="white", fg="black")
@@ -34,7 +34,7 @@ class TranslateBook(tk.Tk):
         self.italian_label.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
         self.notebook.add(english_tab, text="Texto Claro")
-        self.notebook.add(italian_tab, text="Texto Cifrado")
+        self.notebook.add(italian_tab, text="Texto Descifrado")
 
         self.notebook.pack(fill=tk.BOTH, expand=1)
 
@@ -45,15 +45,29 @@ class TranslateBook(tk.Tk):
         url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl={}&tl={}&dt=t&q={}".format("en", target_language, text)
 
         try:
-            k= des("SnS!ines", ECB, pad=None, padmode=PAD_PKCS5)
-            enc_data= k.encrypt(text)
-            dec_data = k.decrypt(enc_data)
-            hashe = md5(text)
-            key = k.getKey()
-            print(key)
-            mk = (str(dec_data) + "\n\n\n" + str(key) + "\n\n\n" + str(hashe))
-            self.italian_translation.set(mk)
-            msg.showinfo("Cifrado", "Texto cifrado com sucesso")
+            
+            texto = text.split("\n\n\n")
+            decript = decrypt_message(texto[1])
+            chave = decript.split("'")
+            chave_a =(chave[1])
+            k = des(chave_a, ECB, pad=None, padmode=PAD_PKCS5)
+
+            texto_a = texto[0].split("'")
+            text_to_byte = str.encode(texto_a[1])
+            print(text_to_byte)
+
+            #dec_data = k.decrypt(text_to_byte)
+            #print (dec_data)
+            
+            #hashe = md5(text)
+            #texto = text.split("\n\n\n")
+            #print (texto)
+            #key = k.getKey()
+            #print(key)
+            
+            #mk = (str(dec_data) + "\n\n\n" + str(decript) + "\n\n\n" + str(hashe))
+            #self.italian_translation.set(mk)
+            msg.showinfo("Descifrado", "Texto decifrado com sucesso")
         except Exception as e:
             msg.showerror("A cifra falhou", str(e))
 

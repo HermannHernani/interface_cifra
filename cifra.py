@@ -45,13 +45,43 @@ class TranslateBook(tk.Tk):
         url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl={}&tl={}&dt=t&q={}".format("en", target_language, text)
 
         try:
+            data= "Hello there!"
+            k= des("SnS!ines", ECB, pad=None, padmode=PAD_PKCS5)
+
+            enc_data= k.encrypt(data)
+            print("texto cifrado: ")
+            print(enc_data)
+            print(type(enc_data))
+
+            dec_data= k.decrypt(enc_data)
+            key = k.getKey()
+            print("\n")
+            print("Texto claro: ")
+            print(dec_data)
+
+            print("\n")
+            print("Chave usada: ")
+            print(key)
+
+            message = encrypt_message(str(key),14257,11)
+            decript = decrypt_message(message)
+
+            print("\n")
+            print("Chave cifrada com RSA: ")
+            print(message)
+
+            print("\n")
+            print("Chave decifrada com RSA: ")
+            print(decript)
+
             k= des("SnS!ines", ECB, pad=None, padmode=PAD_PKCS5)
             enc_data= k.encrypt(text)
             dec_data= k.decrypt(enc_data)
             hashe = md5(text)
             key = k.getKey()
             print(key)
-            mk = (str(enc_data) + "\n\n\n" + str(key) + "\n\n\n" + str(hashe))
+            message = encrypt_message(str(key),14257,11)
+            mk = (str(enc_data) + "\n\n\n" + str(message) + "\n\n\n" + str(hashe))
             self.italian_translation.set(mk)
             msg.showinfo("Cifrado", "Texto cifrado com sucesso")
         except Exception as e:

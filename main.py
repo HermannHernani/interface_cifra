@@ -8,6 +8,7 @@ k= des("SnS!ines", ECB, pad=None, padmode=PAD_PKCS5)
 enc_data= k.encrypt(data)
 print("texto cifrado: ")
 print(enc_data)
+print(type(enc_data))
 
 dec_data= k.decrypt(enc_data)
 key = k.getKey()
